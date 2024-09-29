@@ -1,0 +1,29 @@
+version: "1"
+
+package:
+  id: io.github.BatterySimulator
+  name: BatterySimulator
+  version: 0.0.0.1
+  kind: app
+  description: |
+    BatterySimulator
+
+command:
+  - /opt/apps/io.github.BatterySimulator/files/bin/BatterySimulator
+
+base: org.deepin.foundation/23.0.0
+runtime: org.deepin.Runtime/23.0.1
+
+sources:
+  - kind: git
+    url: https://github.com/KinomotoTomoyo/BatterySimulator.git
+    version: master
+    commit: bc08b41b15be00e6d48195ca0f74f75a1a1a2579
+
+build: |
+  cd /project/linglong/sources/BatterySimulator.git
+  git apply ../../../0001-install.patch
+  cd SourceCode
+  qmake -makefile PREFIX=${PREFIX} LIB_INSTALL_DIR=${PREFIX}/lib/${TRIPLET}
+  make -j$(nproc)
+  make install
